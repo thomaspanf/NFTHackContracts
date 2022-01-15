@@ -10,9 +10,9 @@ contract NFTOwnership is CardHelper, ERC721 {
 
     mapping (uint => address) tradeApproval;
 
-    function balanceOf(address _owner) override external view returns (uint256) {
-        return ownerCardCount[_owner];
-    }
+    // function balanceOf(address _owner) override external view returns (uint256) {
+    //     return ownerCardCount[_owner];
+    // }
 
 
 

@@ -17,6 +17,7 @@ contract CardHelper is CardFactory {
       cards[_cardId].winCount = 0; 
     }
 
+    //todo this can be optimized greatly
     function levelUp(uint _cardId) external onlyOwnerOf(_cardId) {
         require (cards[_cardId].level < 10, "you've reached the max level!");
             if(cards[_cardId].level == 1 && cards[_cardId].winCount >= 1) iterateLevels(_cardId); 
