@@ -53,12 +53,8 @@ contract CardFactory is Ownable {
 
       cards[_cardId].attribute1 = _lastSalePrice + _numberOfSales;
       cards[_cardId].attribute2 = _daysInWallet + _daysInExistence; 
-      cards[_cardId].attribute3 = _generateRandomNumber(_cardId);
+      cards[_cardId].attribute3 = uint(keccak256(abi.encode(_cardId)))%10; 
       
     }
-
-    function _generateRandomNumber(uint _cardId) private pure returns (uint) {
-      uint rand = uint(keccak256(abi.encodePacked(_cardId)));
-      return rand % 10;
-    }
+    
 }
