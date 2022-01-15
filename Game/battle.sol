@@ -19,23 +19,23 @@ contract Battle is CardHelper {
       return result;
     }
 
-    function NFTbattle(Card memory _card1, Card memory _card2, uint attributeNum) 
-    external view returns (Card memory winner) {
+    function NFTbattle(uint _cardId0, uint _cardId1, uint attributeNum) 
+    external view returns (uint winner) {
 
       if(attributeNum == 1){
-        if(_card1.attribute1 > _card2.attribute1){
-          return flipWinner(3) ? _card1 : _card2;
+        if(cards[_cardId0].attribute1 > cards[_cardId1].attribute1){
+          return flipWinner(3) ? _cardId0 : _cardId1;
         }
       }
       else if(attributeNum == 2){
-        if(_card1.attribute2 > _card2.attribute2){
-          return flipWinner(3) ? _card1 : _card2;
+        if(cards[_cardId0].attribute2 > cards[_cardId1].attribute2){
+          return flipWinner(3) ? _cardId0 : _cardId1;
         }
       }
       else if(attributeNum == 3){
-        if(_card1.attribute3 > _card2.attribute3){
-          return flipWinner(3) ? _card1 : _card2;
+        if(cards[_cardId0].attribute3 > cards[_cardId1].attribute3){
+          return flipWinner(3) ? _cardId0 : _cardId1;
         }
-      } else return _card1; 
+      } else return _cardId0; 
     }
 }
