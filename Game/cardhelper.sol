@@ -11,37 +11,37 @@ contract CardHelper is CardFactory {
         _;
     }
 
-    function iterateLevels(uint _cardId) internal {
+    function iterateLevels(uint _cardId, uint8 _expCost) internal {
       cards[_cardId].level++; 
       cards[_cardId].skillPoints++; 
-      cards[_cardId].winCount = 0; 
+      cards[_cardId].winCount -= _expCost; 
     }
 
-    //todo this can be optimized greatly
     function levelUp(uint _cardId) external onlyOwnerOf(_cardId) {
         require (cards[_cardId].level < 10, "you've reached the max level!");
-            if(cards[_cardId].level == 1 && cards[_cardId].winCount >= 1) iterateLevels(_cardId); 
-            if(cards[_cardId].level == 2 && cards[_cardId].winCount >= 2) iterateLevels(_cardId);
-            if(cards[_cardId].level == 3 && cards[_cardId].winCount >= 3) iterateLevels(_cardId);
-            if(cards[_cardId].level == 4 && cards[_cardId].winCount >= 4) iterateLevels(_cardId);   
-            if(cards[_cardId].level == 5 && cards[_cardId].winCount >= 6) iterateLevels(_cardId);
-            if(cards[_cardId].level == 6 && cards[_cardId].winCount >= 8) iterateLevels(_cardId);
-            if(cards[_cardId].level == 7 && cards[_cardId].winCount >= 11) iterateLevels(_cardId);    
-            if(cards[_cardId].level == 8 && cards[_cardId].winCount >= 15) iterateLevels(_cardId);  
-            if(cards[_cardId].level == 9 && cards[_cardId].winCount >= 20) iterateLevels(_cardId);  
+            uint level = cards[_cardId].level;
+            uint8 winCount = cards[_cardId].winCount; 
+
+            if(level == 1 && winCount >= 1) iterateLevels(_cardId, 1); 
+            if(level == 2 && winCount >= 2) iterateLevels(_cardId, 2);
+            if(level == 3 && winCount >= 3) iterateLevels(_cardId, 3);
+            if(level == 4 && winCount >= 3) iterateLevels(_cardId, 3);   
+            if(level == 5 && winCount >= 3) iterateLevels(_cardId, 3);
+            if(level == 6 && winCount >= 3) iterateLevels(_cardId, 3);
+            if(level == 7 && winCount >= 4) iterateLevels(_cardId, 4);    
+            if(level == 8 && winCount >= 4) iterateLevels(_cardId, 4);      
+            if(level == 9 && winCount >= 5) iterateLevels(_cardId, 5);  
     }
 
-    ///external call allows users to select which attribute they want to level up if they have a skill point
     function levelUpAttri(uint _cardId, uint _attrNum) external onlyOwnerOf(_cardId) {
         require (cards[_cardId].skillPoints >= 1 , "not enough skillpoints to level!");
         require (_attrNum == 1 || _attrNum == 2 || _attrNum == 3, "invalid attribute"); 
             if(_attrNum == 1) cards[_cardId].attribute1++; 
-            if(_attrNum == 2) cards[_cardId].attribute1++; 
-            if(_attrNum == 3) cards[_cardId].attribute1++; 
+            if(_attrNum == 2) cards[_cardId].attribute2++; 
+            if(_attrNum == 3) cards[_cardId].attribute3++; 
         cards[_cardId].skillPoints--; 
     }   
     
-    ///retun list of cards owned by certain address 
     function getCardsByOwner(address _owner) external view returns(uint[] memory) {
         uint[] memory result = new uint[](ownerCardCount[_owner]);
         uint counter = 0;
@@ -53,6 +53,5 @@ contract CardHelper is CardFactory {
         }
         return result; 
     }
-
 
 }

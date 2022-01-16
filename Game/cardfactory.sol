@@ -25,36 +25,32 @@ contract CardFactory is Ownable {
     mapping (address => uint) ownerCardCount; 
 
 
-    function createCard(string memory _name) external {
-        // (att1, att2, att3) = _returnAttributesOfNFT; //need a function to get base NFT data here)
-        cards.push(Card(_name, 0, 0, 0, 0, 0, 0));
+    function createCard(string memory _name, uint _att1, uint _att2) external {
+        cards.push(Card(_name, 0, 0, 0, 0, 1, 0));
         uint id = cards.length-1;
         cardToOwner[id] = msg.sender;
+        setAttributes(id, _att1, _att2);
         emit newCard(id, _name);
     }
 
+    function iterateWins(uint _cardId) internal{
+        cards[_cardId].winCount++; 
+    }
 
-
-    //TODO change return value to null and have this be a setter instead
     // attributes are capped at 10 levels, but I can probably have them set to 1000
-    // and divide by 100 for rouding and scope concerns. This current implementation does not work
+    // and divide by 100 for rouding and scope concerns. This current implementation won't
+    // work if we want the levels to be capped at 10. 
 
     function setAttributes(
     uint _cardId, 
-    uint _lastSalePrice, 
-    uint _numberOfSales, 
-    uint _daysInWallet, 
-    uint _daysInExistence
-    ) external { 
+    uint _att1, 
+    uint _att2
+    ) internal { 
 
-      //Apply weightings to base NFT data
-      _lastSalePrice = _lastSalePrice/2; 
-      _daysInExistence = _daysInExistence/2; 
-
-      cards[_cardId].attribute1 = _lastSalePrice + _numberOfSales;
-      cards[_cardId].attribute2 = _daysInWallet + _daysInExistence; 
+      cards[_cardId].attribute1 = _att1;
+      cards[_cardId].attribute2 = _att2;
       cards[_cardId].attribute3 = uint(keccak256(abi.encode(_cardId)))%10; 
       
     }
-    
+
 }
