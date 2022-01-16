@@ -17,20 +17,24 @@ contract CardHelper is CardFactory {
       cards[_cardId].winCount -= _expCost; 
     }
 
-    function levelUp(uint _cardId) external onlyOwnerOf(_cardId) {
-        require (cards[_cardId].level < 10, "you've reached the max level!");
-            uint level = cards[_cardId].level;
-            uint8 winCount = cards[_cardId].winCount; 
+    function levelUp(uint _cardId) internal onlyOwnerOf(_cardId) {
+        //require (cards[_cardId].level < 10, "you've reached the max level!");
+        //uint level = cards[_cardId].level;
+        uint8 winCount = cards[_cardId].winCount; 
 
-            if(level == 1 && winCount >= 1) iterateLevels(_cardId, 1); 
-            if(level == 2 && winCount >= 2) iterateLevels(_cardId, 2);
-            if(level == 3 && winCount >= 3) iterateLevels(_cardId, 3);
-            if(level == 4 && winCount >= 3) iterateLevels(_cardId, 3);   
-            if(level == 5 && winCount >= 3) iterateLevels(_cardId, 3);
-            if(level == 6 && winCount >= 3) iterateLevels(_cardId, 3);
-            if(level == 7 && winCount >= 4) iterateLevels(_cardId, 4);    
-            if(level == 8 && winCount >= 4) iterateLevels(_cardId, 4);      
-            if(level == 9 && winCount >= 5) iterateLevels(_cardId, 5);  
+        require(winCount == 2, "not enough wins to level up!");
+
+            if(winCount == 2) iterateLevels(_cardId, 2);
+
+            // if(level == 1 && winCount >= 1) iterateLevels(_cardId, 1); 
+            // if(level == 2 && winCount >= 2) iterateLevels(_cardId, 2);
+            // if(level == 3 && winCount >= 3) iterateLevels(_cardId, 3);
+            // if(level == 4 && winCount >= 3) iterateLevels(_cardId, 3);   
+            // if(level == 5 && winCount >= 3) iterateLevels(_cardId, 3);
+            // if(level == 6 && winCount >= 3) iterateLevels(_cardId, 3);
+            // if(level == 7 && winCount >= 4) iterateLevels(_cardId, 4);    
+            // if(level == 8 && winCount >= 4) iterateLevels(_cardId, 4);      
+            // if(level == 9 && winCount >= 5) iterateLevels(_cardId, 5);  
     }
 
     function levelUpAttri(uint _cardId, uint _attrNum) external onlyOwnerOf(_cardId) {
